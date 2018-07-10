@@ -1,0 +1,16 @@
+<div class="col-md-12">
+  <div class="text-right">
+    <% if current_user.is_admin? %>
+      <%= link_to('Admin', '#') %>
+    <% end %>
+
+    <% if user_signed_in? %>
+      <%= link_to('Logout', destroy_user_session_path, method: :delete) %>
+    <% end %>
+  </div>
+    <p>
+      Thanks for registering. We will let you know once our product is ready
+    </p>
+</div>
+
+

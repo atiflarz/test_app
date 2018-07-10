@@ -1,0 +1,28 @@
+<%= simple_form_for organization do |f| %>
+  <%= f.input :org_name, required: true %>
+  <%= f.input :org_identifier, disabled:true %>
+
+  <%= f.fields_for :profile do |p| %>
+    <%= p.input :first_name %>
+    <%= p.input :last_name %>
+  <% end %>
+
+  <%= f.fields_for :address do |add| %>
+    <%= add.input :line1 %>
+    <%= add.input :line2, required: false %>
+    <%= add.input :city %>
+    <%= add.input :state %>
+    <%= add.input :country %>
+    <%= add.input :zip, as: :integer, input_html: { min: '6', step: 'any'  } %>
+  <% end %>
+  <%= f.button :submit %>
+<% end %>
+<script type="text/javascript">
+  $(document).ready(function(){
+    $("#organization_org_name").focusout(function() {
+      var str = $(this).val()
+      var strLower = str.toLowerCase();
+      document.getElementById('organization_org_identifier').value = strLower.replace(/[^A-Z0-9]+/ig, "_");
+    });
+  })
+</script>
