@@ -6,6 +6,8 @@ class User < ApplicationRecord
   validates :email, presence: true
   validates_format_of :email,:with => Devise::email_regexp
   has_one :organization
+
+
   def is_admin?
     is_admin
   end

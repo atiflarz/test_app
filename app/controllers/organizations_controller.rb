@@ -1,12 +1,12 @@
 class OrganizationsController < ApplicationController
-
+  before_action :check_organization, only: [:new]
   # GET /organizations/new
 
   def index
-
   end
+
   def new
-    @organization = current_user.organization.new
+    @organization = current_user.build_organization if current_user.organization.blank?
     @organization.build_address
     @organization.build_profile
   end
@@ -31,5 +31,9 @@ class OrganizationsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def organization_params
       params.require(:organization).permit(:org_name, :org_idetifier, address_attributes: [:line1, :line2, :city, :state, :country, :zip], profile_attributes: [:first_name, :last_name])
+    end
+
+    def check_organization
+      redirect_to root_path, error: 'You have already created organization' if current_user.organization.present?
     end
 end
