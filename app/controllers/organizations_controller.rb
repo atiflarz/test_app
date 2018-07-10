@@ -6,7 +6,7 @@ class OrganizationsController < ApplicationController
 
   end
   def new
-    @organization = Organization.new
+    @organization = current_user.organization.new
     @organization.build_address
     @organization.build_profile
   end
@@ -14,7 +14,7 @@ class OrganizationsController < ApplicationController
   # POST /organizations
   # POST /organizations.json
   def create
-    @organization = Organization.new(organization_params)
+    @organization = current_user.build_organization(organization_params)
     respond_to do |format|
       if @organization.save
         format.html { redirect_to root_path, notice: 'Organization was successfully created.' }

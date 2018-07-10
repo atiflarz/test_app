@@ -31,8 +31,10 @@ ActiveRecord::Schema.define(version: 20180710111022) do
   create_table "organizations", force: :cascade do |t|
     t.string   "org_name"
     t.string   "org_identifier"
+    t.integer  "user_id"
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
+    t.index ["user_id"], name: "index_organizations_on_user_id", using: :btree
   end
 
   create_table "profiles", force: :cascade do |t|
