@@ -3,6 +3,8 @@ class OrganizationsController < ApplicationController
   # GET /organizations/new
 
   def index
+    binding.pry
+    @organizations = Organization.all.paginate(page: 1)
   end
 
   def new
@@ -24,6 +26,14 @@ class OrganizationsController < ApplicationController
         format.json { render json: @organization.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+  def search
+    @organizations = Organization.includes(:user, :address)
+    @organizations = @organizations.where(org_name: params[:org_name]) if params[:org_name].present?
+    @organizations = @organizations.where(users: {id: params[:user_id]}) if params[:user_id].present?
+    @organizations = @organizations.where(addresses: {country: params[:country]}) if params[:country].present?
+    render :index
   end
 
   private
