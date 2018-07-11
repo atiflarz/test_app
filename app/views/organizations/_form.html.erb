@@ -43,11 +43,12 @@
         <%= add.input :country %>
       </div>
       <div class="col-md-6">
-        <%= add.input :zip,  input_html: { min: 100000, max: 999999 } %>
+        <%= add.input :zip%>
+        <span class="error_field hidden"> Zip must be of length 6</span>
       </div>
     </div>
   <% end %>
-  <%= f.button :submit %>
+  <%= f.button :submit, class: "org_submit" %>
 <% end %>
 <script type="text/javascript">
   $(document).ready(function(){
@@ -55,6 +56,16 @@
       var str = $(this).val()
       var strLower = str.toLowerCase();
       document.getElementById('organization_org_identifier').value = strLower.replace(/[^A-Z0-9]+/ig, "_");
+    });
+    $("#organization_address_attributes_zip").on("keyup", function(){
+      if($(this).val().length != 6){
+        $(".error_field").removeClass("hidden")
+        $(".org_submit").attr("disabled", "disabled");
+      }
+      else {
+        $(".error_field").addClass("hidden")
+        $(".org_submit").removeAttr("disabled");
+      }
     });
   })
 </script>

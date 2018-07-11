@@ -1,0 +1,5 @@
+1. Set rbuy version to 2.5.0
+2. Run bundle install, with the command `bundle:install`
+3. Create database, database with the command `rails db:migrate`
+4. Run the command for migration, with the command `rails db:migrate`
+5. Run `rails s` to start the rails server, go to http://localhost:3000 in your browser
