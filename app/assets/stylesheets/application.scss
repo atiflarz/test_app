@@ -17,3 +17,10 @@
 .container{
   width: 100%;
 }
+.custom_filed{margin-bottom:15px;}
+.custom_filed select, .custom_filed input{    width: 100%;
+    border: 1px solid #ccc;
+    background: #fff;
+    padding: 5px;
+    font-size: 13px;}
+.custom_filed input.search_btn{width:auto; background:green}

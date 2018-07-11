@@ -4,5 +4,4 @@ class Organization < ApplicationRecord
   has_one :address
   belongs_to :user, optional: true
   accepts_nested_attributes_for :address, :profile, allow_destroy: true
-  enum pagination: %w(10 20 30)
 end

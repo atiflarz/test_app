@@ -12,20 +12,20 @@
 
 <%= form_tag search_organizations_path, method: :get do  %>
 <div class="row">
-    <div class="col-md-2">
-      <%= select_tag :page, options_for_select(Organization::paginations, params[:page]) %>
+    <div class="col-md-2 custom_filed">
+      <%= select_tag :page_length, options_for_select([[10, 10], [20, 20], [30, 30]], params[:page_length]), {prompt: "Page Length"} %>
     </div>
-    <div class="col-md-2">
+    <div class="col-md-2 custom_filed">
       <%= text_field_tag :org_name, nil, placeholder: "Org Name"%>
     </div>
-    <div class="col-md-2">
+    <div class="col-md-2 custom_filed">
       <%= select_tag :user_id, options_for_select(User.all.map { |u| [u.email, u.id] }.sort, params[:user_id]), {prompt: "Select Email"} %>
     </div>
-    <div class="col-md-2">
+    <div class="col-md-2 custom_filed">
       <%= text_field_tag :country, nil, {placeholder: "Country"}%>
     </div>
-    <div class="col-md-2">
-      <%= submit_tag "Search", class: "btn btn-success btn-sm"  %>
+    <div class="col-md-2 custom_filed">
+      <%= submit_tag "Search", class: "btn btn-success btn-sm search_btn"  %>
       <%= link_to "Reset", organizations_path, class: "btn btn-danger btn-sm"%>
     </div>
   <% end %>
@@ -39,6 +39,8 @@
         <th>ORG IDENTIFIER</th>
         <th>CREATED BY</th>
         <th>COUNTRY</th>
+        <th>CREATED AT</th>
+        <th>UPDATED AT</th>
       </tr>
     </thead>
     <tbody>
@@ -49,8 +51,12 @@
           <td><%= organization.org_identifier%></td>
           <td><%= organization.user.email%></td>
           <td><%=organization.address.country%></td>
+          <td><%=organization.created_at.strftime("%m/%d/%Y")%></td>
+          <td><%=organization.updated_at.strftime("%m/%d/%Y")%></td>
           </tr>
         <% end %>
     </tbody>
   </table>
 </div>
+<%= will_paginate(@organizations, renderer: WillPaginate::ActionView::LinkRenderer)
+  %>

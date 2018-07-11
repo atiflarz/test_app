@@ -1,10 +1,10 @@
 class OrganizationsController < ApplicationController
   before_action :check_organization, only: [:new]
+  before_action :set_pagination_params, only: [:index, :search]
   # GET /organizations/new
 
   def index
-    binding.pry
-    @organizations = Organization.all.paginate(page: 1)
+    @organizations = Organization.all.paginate(page: @page, per_page: @page_length)
   end
 
   def new
@@ -29,10 +29,12 @@ class OrganizationsController < ApplicationController
   end
 
   def search
+
     @organizations = Organization.includes(:user, :address)
     @organizations = @organizations.where(org_name: params[:org_name]) if params[:org_name].present?
     @organizations = @organizations.where(users: {id: params[:user_id]}) if params[:user_id].present?
     @organizations = @organizations.where(addresses: {country: params[:country]}) if params[:country].present?
+    @organizations = @organizations.paginate(page: @page, per_page: @page_length) if params[:page_length].present?
     render :index
   end
 
@@ -45,5 +47,10 @@ class OrganizationsController < ApplicationController
 
     def check_organization
       redirect_to root_path, error: 'You have already created organization' if current_user.organization.present?
+    end
+
+    def set_pagination_params
+      @page = params[:page].present? ? params[:page] : 1
+      @page_length = params[:page_length].present? ? params[:page_length].to_i : 30
     end
 end

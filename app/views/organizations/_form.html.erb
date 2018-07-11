@@ -1,19 +1,51 @@
 <%= simple_form_for organization do |f| %>
-  <%= f.input :org_name, required: true %>
-  <%= f.input :org_identifier, disabled:true %>
-
+  <div class="row">
+    <div class="col-md-6">
+      <%= f.input :org_name, required: true %>
+    </div>
+    <div class="col-md-6">
+      <%= f.input :org_identifier, disabled:true %>
+    </div>
+  </div>
+  <hr>
+  <h5>Profile</h5>
   <%= f.fields_for :profile do |p| %>
-    <%= p.input :first_name %>
-    <%= p.input :last_name %>
+    <div class="row">
+      <div class="col-md-6">
+        <%= p.input :first_name %>
+      </div>
+      <div class="col-md-6">
+        <%= p.input :last_name %>
+      </div>
+    </div>
   <% end %>
-
+  <hr>
+  <h5>Address </h5>
   <%= f.fields_for :address do |add| %>
-    <%= add.input :line1 %>
-    <%= add.input :line2, required: false %>
-    <%= add.input :city %>
-    <%= add.input :state %>
-    <%= add.input :country %>
-    <%= add.input :zip, as: :integer, input_html: { min: '6', step: 'any'  } %>
+    <div class="row">
+      <div class="col-md-6">
+        <%= add.input :line1 %>
+      </div>
+      <div class="col-md-6">
+        <%= add.input :line2, required: false %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <%= add.input :city %>
+      </div>
+      <div class="col-md-6">
+        <%= add.input :state %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <%= add.input :country %>
+      </div>
+      <div class="col-md-6">
+        <%= add.input :zip,  input_html: { min: 100000, max: 999999 } %>
+      </div>
+    </div>
   <% end %>
   <%= f.button :submit %>
 <% end %>
