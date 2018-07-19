@@ -14,3 +14,9 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require_tree .
+
+$(document).ready(function(){
+  $('#search_form').on('keyup change', 'input, select', function(){
+    $(this).submit();
+  });
+});

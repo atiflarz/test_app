@@ -9,24 +9,3 @@
     <% end %>
   </div>
 </div>
-
-
-
-<%= form_tag search_organizations_path, method: :get do  %>
-    <div class="field1">
-      <%= text_field_tag :org_name, {placeholder: "Org Name"}%>
-    </div>
-    <div class="field1">
-      <%= select_tag :user_id, options_for_select(User.all.map { |u| [u.email, u.id] }.sort, params[:user_id]), {prompt: "Select Email"} %>
-    </div>
-    <div class="field1">
-      <%= text_field_tag :country, {placeholder: "Country"}%>
-    </div>
-    <div class="actions">
-      <%= submit_tag "Search", class: "btn btn-success btn-sm"  %>
-      <%= link_to "Reset", organizations_path, class: "btn btn-danger btn-sm"%>
-    </div>
-  <% end %>
-<div >
-
-  </div>

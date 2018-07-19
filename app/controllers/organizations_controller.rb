@@ -29,13 +29,11 @@ class OrganizationsController < ApplicationController
   end
 
   def search
-
     @organizations = Organization.includes(:user, :address)
-    @organizations = @organizations.where(org_name: params[:org_name]) if params[:org_name].present?
+    @organizations = @organizations.where("lower(org_name) LIKE ?", "%#{params[:org_name].downcase}%") if params[:org_name].present?
     @organizations = @organizations.where(users: {id: params[:user_id]}) if params[:user_id].present?
-    @organizations = @organizations.where(addresses: {country: params[:country]}) if params[:country].present?
-    @organizations = @organizations.paginate(page: @page, per_page: @page_length) if params[:page_length].present?
-    render :index
+    @organizations = @organizations.where("lower(addresses.country) LIKE ?", "%#{params[:country].downcase}%").references(:address) if params[:country].present?
+    @organizations = @organizations.paginate(page: @page, per_page: @page_length)
   end
 
   private
@@ -51,6 +49,7 @@ class OrganizationsController < ApplicationController
 
     def set_pagination_params
       @page = params[:page].present? ? params[:page] : 1
-      @page_length = params[:page_length].present? ? params[:page_length].to_i : 30
+      @page_length = 30
+      # @page_length = params[:page_length].present? ? params[:page_length].to_i : 30
     end
 end
